@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>frmTransactionBill — Thanh toán (DevExpress Mockup)</title>
+<style>
+  /* ---------- DevExpress-like skin (Office 2019 Colorful flavor) ---------- */
+  :root {
+    --dx-bg: #f0f0f0;
+    --dx-panel: #ffffff;
+    --dx-border: #c8c8c8;
+    --dx-border-soft: #d8d8d8;
+    --dx-label: #1c1c1c;
+    --dx-text: #2b2b2b;
+    --dx-text-muted: #6b6b6b;
+    --dx-toolbar-bg: linear-gradient(to bottom, #f8f8f8 0%, #ececec 100%);
+    --dx-group-header: #2e75b8;
+    --dx-group-header-text: #ffffff;
+    --dx-accent: #2e75b8;
+    --dx-accent-hover: #1f5a96;
+    --dx-input-bg: #ffffff;
+    --dx-input-border: #b8b8b8;
+    --dx-input-disabled-bg: #f4f4f4;
+    --dx-button-bg: linear-gradient(to bottom, #fafafa, #eaeaea);
+    --dx-button-bg-hover: linear-gradient(to bottom, #f0f6fc, #d8e8f5);
+    --dx-button-border: #b6b6b6;
+    --dx-grid-header-bg: linear-gradient(to bottom, #f5f7fa 0%, #e6ebf2 100%);
+    --dx-grid-header-text: #1f1f1f;
+    --dx-grid-row-alt: #f8f9fb;
+    --dx-grid-selected: #cde1f4;
+    --dx-grid-border: #d4d4d4;
+    --dx-link: #0b5bbf;
+    --dx-success: #2b8a3e;
+    --dx-warning: #c97d0e;
+    --dx-danger: #c0392b;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #4a5260; font-family: "Segoe UI", Tahoma, Arial, sans-serif; font-size: 12px; color: var(--dx-text); }
+
+  /* Page chrome to mimic Windows */
+  .desktop {
+    padding: 20px;
+    min-width: 1881px;
+  }
+
+  .form-window {
+    width: 1841px;
+    background: var(--dx-bg);
+    border: 1px solid #2a2a2a;
+    border-radius: 6px;
+    box-shadow: 0 12px 30px rgba(0,0,0,.45);
+    overflow: hidden;
+    user-select: none;
+  }
+
+  /* Title bar (XtraForm) */
+  .titlebar {
+    height: 30px;
+    background: linear-gradient(to bottom, #3c7fb1 0%, #2c6695 100%);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .titlebar .icon { width: 16px; height: 16px; margin-right: 6px; background: #fff; opacity: .85; clip-path: polygon(20% 0,80% 0,100% 30%,100% 100%,0 100%,0 30%); }
+  .titlebar .title { flex: 1; }
+  .titlebar .winbtns { display: flex; gap: 0; }
+  .titlebar .winbtn { width: 38px; height: 30px; display: flex; align-items: center; justify-content: center; color: #fff; }
+  .titlebar .winbtn:hover { background: rgba(255,255,255,.18); }
+  .titlebar .winbtn.close:hover { background: #e81123; }
+
+  /* Toolbar (BarManager / Bar) */
+  .toolbar {
+    height: 30px;
+    background: var(--dx-toolbar-bg);
+    border-bottom: 1px solid var(--dx-border);
+    display: flex;
+    align-items: center;
+    gap: 1px;
+    padding: 0 4px;
+  }
+  .toolbar .bar-btn {
+    display: flex; align-items: center; gap: 6px;
+    height: 24px; padding: 0 10px;
+    background: transparent; border: 1px solid transparent;
+    color: var(--dx-text); font-size: 12px;
+    cursor: pointer;
+  }
+  .toolbar .bar-btn:hover { background: var(--dx-button-bg-hover); border-color: #a4c4e8; }
+  .toolbar .bar-btn .ico { width: 16px; height: 16px; display:inline-block; }
+  .toolbar .sep { width: 1px; height: 18px; background: var(--dx-border); margin: 0 3px; }
+
+  /* SVG inline icons (small monochrome) */
+  .ico-save { background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='%232b6695' d='M2 2h10l2 2v10H2z'/><path fill='%23fff' d='M4 2h7v4H4z'/><path fill='%23fff' d='M4 9h8v5H4z'/><path fill='%232b6695' d='M5 10h6v1H5zm0 2h6v1H5z'/></svg>") no-repeat center / contain; }
+  .ico-new  { background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='%23fff' stroke='%23606060' d='M3.5 1.5h6L13 5v9.5H3.5z'/><path fill='none' stroke='%23606060' d='M9.5 1.5V5h3.5'/><path fill='%232b8a3e' d='M11 8h-1V7H9v1H8v1h1v1h1V9h1z'/></svg>") no-repeat center / contain; }
+  .ico-print{ background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='%23606060' d='M4 1h8v4H4z'/><path fill='%23808080' d='M2 5h12v6H2z'/><path fill='%23fff' stroke='%23606060' d='M4 9h8v6H4z'/><path fill='%23606060' d='M5 11h6v1H5zm0 2h4v1H5z'/></svg>") no-repeat center / contain; }
+  .ico-sign { background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='none' stroke='%23c97d0e' stroke-width='1.5' d='M1 13c2-1 3-7 6-7s2 6 4 6 4-3 4-3'/><circle cx='13' cy='3' r='2' fill='%23c97d0e'/></svg>") no-repeat center / contain; }
+  .ico-search{ background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><circle cx='7' cy='7' r='4.5' fill='none' stroke='%232b6695' stroke-width='1.5'/><path stroke='%232b6695' stroke-width='2' d='M10.5 10.5l3.5 3.5'/></svg>") no-repeat center / contain; }
+  .ico-qr   { background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='%23000' d='M1 1h5v5H1zm2 2v1h1V3zm7-2h5v5h-5zm2 2v1h1V3zM1 10h5v5H1zm2 2v1h1v-1zm5-2h1v1H8zm0 2h1v3H8zm2-2h2v2h-2zm2 2h2v2h-2zm-2 2h1v1h-1z'/></svg>") no-repeat center / contain; }
+  .ico-pos  { background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect x='2' y='3' width='12' height='8' fill='%23808080' rx='1'/><rect x='3' y='4' width='10' height='4' fill='%23a0c4ec'/><rect x='3' y='11' width='10' height='2' fill='%23606060'/></svg>") no-repeat center / contain; }
+
+  /* Form body */
+  .form-body { position: relative; width: 1841px; height: 908px; background: var(--dx-bg); }
+
+  /* ---------- Patient info bar (layoutControl2) ---------- */
+  .patient-bar {
+    position: absolute; left: 0; top: 0; width: 1841px; height: 95px;
+    background: var(--dx-panel);
+    border-bottom: 1px solid var(--dx-border-soft);
+    padding: 6px 8px;
+  }
+  .patient-grid { display: grid; grid-template-columns: 80px 220px 70px 220px 70px 160px 70px 100px 70px 240px 70px 100px; gap: 4px 8px; align-items: center; }
+  .patient-grid .lbl { color: var(--dx-label); text-align: right; }
+  .patient-grid .val {
+    height: 22px; line-height: 20px; padding: 0 6px;
+    background: var(--dx-input-disabled-bg);
+    border: 1px solid var(--dx-input-border);
+    color: var(--dx-text);
+    font-weight: 600;
+    overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+  }
+  .patient-grid .val.bold-blue { color: var(--dx-accent); }
+  .ratio-line {
+    grid-column: 1 / -1;
+    height: 22px; line-height: 22px;
+    padding: 0 6px; margin-top: 2px;
+    background: #fff8dc; border: 1px dashed #d4c47a;
+    font-weight: 600; color: #6b4f00;
+  }
+
+  /* ---------- Services tree panel (panelControlTreeSereServ) ---------- */
+  .tree-panel {
+    position: absolute; left: 0; top: 95px; width: 1841px; height: 370px;
+    background: var(--dx-panel);
+    border-bottom: 1px solid var(--dx-border-soft);
+  }
+  .tree-header {
+    height: 24px;
+    background: var(--dx-grid-header-bg);
+    border-bottom: 1px solid var(--dx-grid-border);
+    display: grid;
+    grid-template-columns: 30px 60px 70px 1fr 80px 80px 110px 110px 110px 110px 110px 110px 110px 80px;
+    align-items: center;
+    font-weight: 600;
+    color: var(--dx-grid-header-text);
+  }
+  .tree-header > div { padding: 0 6px; border-right: 1px solid var(--dx-grid-border); height: 100%; display: flex; align-items: center; }
+  .tree-row {
+    display: grid;
+    grid-template-columns: 30px 60px 70px 1fr 80px 80px 110px 110px 110px 110px 110px 110px 110px 80px;
+    height: 22px;
+    align-items: center;
+    border-bottom: 1px solid #ececec;
+    font-size: 12px;
+  }
+  .tree-row > div { padding: 0 6px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .tree-row.group { background: #eef3f8; font-weight: 600; }
+  .tree-row.alt { background: var(--dx-grid-row-alt); }
+  .tree-row.selected { background: var(--dx-grid-selected); }
+  .indent-1 { padding-left: 18px !important; }
+  .indent-2 { padding-left: 32px !important; }
+  .num { text-align: right; }
+  .neg { color: var(--dx-danger); }
+  .chk-cell { display: flex; align-items: center; justify-content: center; }
+  .dx-check { width: 13px; height: 13px; border: 1px solid #888; background: #fff; display: inline-block; position: relative; }
+  .dx-check.checked::after { content: ""; position: absolute; left: 2px; top: -1px; width: 5px; height: 9px; border: solid var(--dx-accent); border-width: 0 2px 2px 0; transform: rotate(45deg); }
+  .triangle { display: inline-block; width: 0; height: 0; border-left: 5px solid #555; border-top: 4px solid transparent; border-bottom: 4px solid transparent; margin-right: 4px; vertical-align: middle; }
+  .triangle.open { transform: rotate(90deg); border-left: 5px solid #555; }
+  .tree-footer {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 22px;
+    background: var(--dx-grid-header-bg);
+    border-top: 1px solid var(--dx-grid-border);
+    display: grid;
+    grid-template-columns: 30px 60px 70px 1fr 80px 80px 110px 110px 110px 110px 110px 110px 110px 80px;
+    align-items: center;
+    font-weight: 700;
+    color: #1a1a1a;
+  }
+  .tree-footer > div { padding: 0 6px; border-right: 1px solid var(--dx-grid-border); height: 100%; display:flex; align-items: center; }
+
+  /* ---------- Lower workspace split ---------- */
+  .workspace { position: absolute; left: 0; top: 465px; right: 0; bottom: 38px; display: flex; }
+  .col-left  { width: 903px; padding: 8px; }
+  .col-right { width: 938px; padding: 8px; border-left: 1px solid var(--dx-border-soft); }
+
+  /* LayoutControlItem: label : value pair (row layout used everywhere) */
+  .lci { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+  .lci > .lci-label {
+    width: 110px; min-width: 110px; text-align: right;
+    color: var(--dx-label);
+    padding-right: 4px;
+  }
+  .lci > .lci-label.w90  { width: 90px; min-width: 90px; }
+  .lci > .lci-label.w130 { width: 130px; min-width: 130px; }
+  .lci > .lci-label.w160 { width: 160px; min-width: 160px; }
+  .lci > .lci-input { flex: 1; }
+
+  /* DevExpress editor look */
+  .dx-edit {
+    height: 22px; line-height: 20px; padding: 0 6px;
+    background: var(--dx-input-bg);
+    border: 1px solid var(--dx-input-border);
+    color: var(--dx-text);
+    width: 100%;
+    font: 12px "Segoe UI", Tahoma, Arial, sans-serif;
+  }
+  .dx-edit:focus { outline: 1px solid var(--dx-accent); border-color: var(--dx-accent); }
+  .dx-edit.readonly { background: var(--dx-input-disabled-bg); color: #444; }
+  .dx-edit.num-strong { text-align: right; font-weight: 700; color: #1f1f1f; }
+  .dx-edit.amount { background: #fff9e6; border-color: #e0b95a; font-weight: 700; color: #6b4f00; text-align: right; }
+  .dx-lookup, .dx-spin, .dx-date, .dx-button-edit {
+    height: 22px; background: var(--dx-input-bg);
+    border: 1px solid var(--dx-input-border);
+    display: flex; align-items: stretch; width: 100%;
+  }
+  .dx-lookup > input, .dx-spin > input, .dx-date > input, .dx-button-edit > input {
+    border: none; outline: none; flex: 1; padding: 0 6px; background: transparent; font: inherit; color: var(--dx-text);
+  }
+  .dx-edit-btn {
+    width: 18px; border-left: 1px solid var(--dx-border-soft);
+    display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(to bottom, #fcfcfc, #eaeaea);
+    color: #555; cursor: pointer;
+  }
+  .dx-edit-btn:hover { background: linear-gradient(to bottom, #eaf2fb, #cfe1f5); color: var(--dx-accent); }
+
+  /* CheckEdit */
+  .dx-checkedit { display: inline-flex; align-items: center; gap: 5px; line-height: 16px; }
+  .dx-checkedit .dx-check { flex-shrink: 0; }
+  .dx-radio { display: inline-flex; align-items: center; gap: 4px; }
+  .dx-radio .dx-rd { width: 13px; height: 13px; border: 1px solid #888; background: #fff; border-radius: 50%; display: inline-block; position: relative; }
+  .dx-radio.checked .dx-rd::after { content: ""; position: absolute; inset: 3px; background: var(--dx-accent); border-radius: 50%; }
+
+  /* Buttons */
+  .dx-btn {
+    height: 26px; padding: 0 12px;
+    background: var(--dx-button-bg);
+    border: 1px solid var(--dx-button-border);
+    color: var(--dx-text); font: 12px "Segoe UI", Tahoma, sans-serif;
+    cursor: pointer;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .dx-btn:hover { background: var(--dx-button-bg-hover); border-color: #6a9fd1; }
+  .dx-btn.primary { background: linear-gradient(to bottom, #4a90c8, #2e75b8); color: #fff; border-color: #205a90; font-weight: 600; }
+  .dx-btn.primary:hover { background: linear-gradient(to bottom, #5fa3da, #3c84c7); }
+  .dx-btn.compact { height: 22px; padding: 0 8px; }
+  .dx-btn .ico { width: 14px; height: 14px; }
+  .dx-dropdown-btn { display: inline-flex; }
+  .dx-dropdown-btn .main { border-right: none; }
+  .dx-dropdown-btn .arrow { padding: 0 4px; border-left: 1px solid #6a9fd1; }
+
+  /* GroupControl */
+  .dx-group {
+    border: 1px solid var(--dx-border);
+    background: var(--dx-panel);
+    margin-bottom: 6px;
+  }
+  .dx-group > .caption {
+    height: 22px; padding: 0 8px;
+    background: linear-gradient(to bottom, #f8fafd, #e8eef6);
+    border-bottom: 1px solid var(--dx-border-soft);
+    font-weight: 700; color: var(--dx-label);
+    display: flex; align-items: center;
+  }
+  .dx-group > .body { padding: 6px; }
+
+  /* GridControl */
+  .dx-grid {
+    border: 1px solid var(--dx-grid-border);
+    background: var(--dx-panel);
+  }
+  .dx-grid .grid-header {
+    display: grid; height: 22px;
+    background: var(--dx-grid-header-bg);
+    border-bottom: 1px solid var(--dx-grid-border);
+    font-weight: 600; color: var(--dx-grid-header-text);
+  }
+  .dx-grid .grid-header > div { padding: 0 6px; border-right: 1px solid var(--dx-grid-border); display: flex; align-items: center; overflow: hidden; }
+  .dx-grid .grid-row {
+    display: grid; height: 22px;
+    border-bottom: 1px solid #ececec;
+    align-items: center;
+    background: var(--dx-panel);
+  }
+  .dx-grid .grid-row.alt { background: var(--dx-grid-row-alt); }
+  .dx-grid .grid-row.selected { background: var(--dx-grid-selected); }
+  .dx-grid .grid-row > div { padding: 0 6px; border-right: 1px solid #ececec; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .dx-grid .grid-footer {
+    display: grid; height: 22px;
+    background: var(--dx-grid-header-bg);
+    border-top: 1px solid var(--dx-grid-border);
+    font-weight: 700;
+  }
+  .dx-grid .grid-footer > div { padding: 0 6px; border-right: 1px solid var(--dx-grid-border); display: flex; align-items: center; justify-content: flex-end; }
+
+  /* Bottom action bar */
+  .bottom-bar {
+    position: absolute; left: 0; right: 0; bottom: 0; height: 38px;
+    background: linear-gradient(to bottom, #fafafa, #ececec);
+    border-top: 1px solid var(--dx-border);
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    gap: 6px;
+  }
+  .bottom-bar .dx-checkedit { margin-right: 8px; }
+  .bottom-bar .spacer { flex: 1; }
+
+  /* Specific colored labels */
+  .label-info { color: var(--dx-accent); font-weight: 700; }
+  .label-warn { color: var(--dx-warning); font-weight: 700; }
+  .label-money { color: var(--dx-danger); font-weight: 700; font-size: 13px; }
+
+  /* Lock icons in grid */
+  .lock-ico::before { content: "🔒"; font-size: 11px; }
+  .unlock-ico::before { content: "🔓"; font-size: 11px; }
+  .delete-ico::before { content: "❌"; font-size: 10px; }
+  .add-ico::before { content: "➕"; font-size: 10px; color: var(--dx-success); }
+
+  /* Small note about origin */
+  .source-note {
+    position: fixed; bottom: 8px; right: 12px;
+    color: rgba(255,255,255,.6); font-size: 11px;
+    font-family: Consolas, monospace;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+  <div class="desktop">
+    <div class="form-window">
+      <!-- Title bar (XtraForm) -->
+      <div class="titlebar">
+        <span class="icon"></span>
+        <span class="title">Thanh toán</span>
+        <div class="winbtns">
+          <div class="winbtn">&#8211;</div>
+          <div class="winbtn">&#9633;</div>
+          <div class="winbtn close">&#10005;</div>
+        </div>
+      </div>
+
+      <!-- Toolbar (BarManager / bar1 "Tools") -->
+      <div class="toolbar">
+        <button class="bar-btn"><span class="ico ico-save"></span>Lưu (Ctrl S)</button>
+        <button class="bar-btn"><span class="ico ico-new"></span>Mới (Ctrl N)</button>
+        <button class="bar-btn"><span class="ico ico-print"></span>Lưu in (Ctrl I)</button>
+        <button class="bar-btn"><span class="ico ico-sign"></span>Lưu ký (Ctrl A)</button>
+        <div class="sep"></div>
+        <button class="bar-btn"><span class="ico ico-search"></span>Tìm (Ctrl F)</button>
+      </div>
+
+      <!-- Form body -->
+      <div class="form-body">
+
+        <!-- ====== Patient info (layoutControl2, y=33, h=95) ====== -->
+        <div class="patient-bar">
+          <div class="patient-grid">
+            <div class="lbl">Mã bệnh nhân:</div>
+            <div class="val bold-blue">25004821</div>
+            <div class="lbl">Tên bệnh nhân:</div>
+            <div class="val">NGUYỄN VĂN AN</div>
+            <div class="lbl">Đối tượng:</div>
+            <div class="val">BHYT</div>
+            <div class="lbl">Ngày sinh:</div>
+            <div class="val">15/03/1958</div>
+            <div class="lbl">Giới tính:</div>
+            <div class="val">Nam</div>
+            <div class="lbl">Địa chỉ:</div>
+            <div class="val" style="grid-column: span 1;">Số 12 Lý Thường Kiệt, Hoàn Kiếm, Hà Nội</div>
+
+            <div class="lbl">Số thẻ BH:</div>
+            <div class="val">HT4010125000123</div>
+            <div class="lbl">Hạn từ:</div>
+            <div class="val">01/01/2025</div>
+            <div class="lbl">Hạn đến:</div>
+            <div class="val">31/12/2025</div>
+            <div class="lbl">Nơi ĐKKCBBĐ:</div>
+            <div class="val">BV Đa khoa Hà Nội (01-001)</div>
+            <div class="lbl">Tuyến:</div>
+            <div class="val">Đúng tuyến</div>
+            <div class="lbl">Mức hưởng:</div>
+            <div class="val" style="color: var(--dx-success); font-weight: 700;">80%</div>
+
+            <div class="ratio-line">
+              ⓘ Bệnh nhân điều trị nội trú — Mã đợt: 25.04.0123 — Khoa: Nội Tim mạch — Phòng: 305 — Bác sĩ điều trị: BS. Trần Văn Bình
+            </div>
+          </div>
+        </div>
+
+        <!-- ====== Services tree panel (panelControlTreeSereServ, y=128, h=370) ====== -->
+        <div class="tree-panel">
+          <div class="tree-header">
+            <div></div>
+            <div>STT</div>
+            <div>Mã DV</div>
+            <div>Tên dịch vụ</div>
+            <div class="num">SL</div>
+            <div class="num">Đơn giá</div>
+            <div class="num">Thành tiền</div>
+            <div class="num">BHYT trả</div>
+            <div class="num">BN trả</div>
+            <div class="num">Đã thu</div>
+            <div class="num">Còn nợ</div>
+            <div>Khoa CĐ</div>
+            <div>Phòng TH</div>
+            <div>Trạng thái</div>
+          </div>
+
+          <div class="tree-row group">
+            <div class="chk-cell"><span class="triangle open"></span></div>
+            <div>1</div>
+            <div>NHOM_KHAM</div>
+            <div><b>► Phí khám bệnh</b></div>
+            <div class="num">1</div>
+            <div class="num">200.000</div>
+            <div class="num">200.000</div>
+            <div class="num">160.000</div>
+            <div class="num">40.000</div>
+            <div class="num">0</div>
+            <div class="num neg">40.000</div>
+            <div>Khám TM</div>
+            <div>P.301</div>
+            <div>Chưa thu</div>
+          </div>
+          <div class="tree-row">
+            <div class="chk-cell"><span class="dx-check checked"></span></div>
+            <div class="indent-1">1.1</div>
+            <div>K01.001</div>
+            <div class="indent-1">Khám bệnh chuyên khoa</div>
+            <div class="num">1</div>
+            <div class="num">200.000</div>
+            <div class="num">200.000</div>
+            <div class="num">160.000</div>
+            <div class="num">40.000</div>
+            <div class="num">0</div>
+            <div class="num neg">40.000</div>
+            <div>Khám TM</div>
+            <div>P.301</div>
+            <div>Chưa thu</div>
+          </div>
+
+          <div class="tree-row group alt">
+            <div class="chk-cell"><span class="triangle open"></span></div>
+            <div>2</div>
+            <div>NHOM_CLS</div>
+            <div><b>► Cận lâm sàng + Thủ thuật</b></div>
+            <div class="num">5</div>
+            <div class="num"></div>
+            <div class="num">1.850.000</div>
+            <div class="num">1.480.000</div>
+            <div class="num">370.000</div>
+            <div class="num">0</div>
+            <div class="num neg">370.000</div>
+            <div></div>
+            <div></div>
+            <div>Chưa thu</div>
+          </div>
+          <div class="tree-row">
+            <div class="chk-cell"><span class="dx-check checked"></span></div>
+            <div class="indent-1">2.1</div>
+            <div>X01.014</div>
+            <div class="indent-1">Siêu âm Doppler tim</div>
+            <div class="num">1</div>
+            <div class="num">450.000</div>
+            <div class="num">450.000</div>
+            <div class="num">360.000</div>
+            <div class="num">90.000</div>
+            <div class="num">0</div>
+            <div class="num neg">90.000</div>
+            <div>CĐHA</div>
+            <div>SA.02</div>
+            <div>Đã thực hiện</div>
+          </div>
+          <div class="tree-row alt">
+            <div class="chk-cell"><span class="dx-check checked"></span></div>
+            <div class="indent-1">2.2</div>
+            <div>X02.108</div>
+            <div class="indent-1">Điện tâm đồ thường (ECG)</div>
+            <div class="num">1</div>
+            <div class="num">120.000</div>
+            <div class="num">120.000</div>
+            <div class="num">96.000</div>
+            <div class="num">24.000</div>
+            <div class="num">0</div>
+            <div class="num neg">24.000</div>
+            <div>Thăm dò CN</div>
+            <div>ECG.01</div>
+            <div>Đã thực hiện</div>
+          </div>
+          <div class="tree-row selected">
+            <div class="chk-cell"><span class="dx-check checked"></span></div>
+            <div class="indent-1">2.3</div>
+            <div>X03.221</div>
+            <div class="indent-1">Xét nghiệm sinh hóa máu (12 chỉ số)</div>
+            <div class="num">1</div>
+            <div class="num">380.000</div>
+            <div class="num">380.000</div>
+            <div class="num">304.000</div>
+            <div class="num">76.000</div>
+            <div class="num">0</div>
+            <div class="num neg">76.000</div>
+            <div>Hóa sinh</div>
+            <div>XN.SH</div>
+            <div>Đã có KQ</div>
+          </div>
+          <div class="tree-row">
+            <div class="chk-cell"><span class="dx-check checked"></span></div>
+            <div class="indent-1">2.4</div>
+            <div>X03.401</div>
+            <div class="indent-1">Tổng phân tích tế bào máu (CBC)</div>
+            <div class="num">1</div>
+            <div class="num">220.000</div>
+            <div class="num">220.000</div>
+            <div class="num">176.000</div>
+            <div class="num">44.000</div>
+            <div class="num">0</div>
+            <div class="num neg">44.000</div>
+            <div>Huyết học</div>
+            <div>XN.HH</div>
+            <div>Đã có KQ</div>
+          </div>
+          <div class="tree-row alt">
+            <div class="chk-cell"><span class="dx-check checked"></span></div>
+            <div class="indent-1">2.5</div>
+            <div>TT01.038</div>
+            <div class="indent-1">Đặt catheter tĩnh mạch trung tâm</div>
+            <div class="num">1</div>
+            <div class="num">680.000</div>
+            <div class="num">680.000</div>
+            <div class="num">544.000</div>
+            <div class="num">136.000</div>
+            <div class="num">0</div>
+            <div class="num neg">136.000</div>
+            <div>Nội TM</div>
+            <div>TT.305</div>
+            <div>Đã thực hiện</div>
+          </div>
+
+          <div class="tree-row group">
+            <div class="chk-cell"><span class="triangle open"></span></div>
+            <div>3</div>
+            <div>NHOM_THUOC</div>
+            <div><b>► Thuốc – Vật tư y tế</b></div>
+            <div class="num">8</div>
+            <div class="num"></div>
+            <div class="num">1.245.500</div>
+            <div class="num">996.400</div>
+            <div class="num">249.100</div>
+            <div class="num">0</div>
+            <div class="num neg">249.100</div>
+            <div></div>
+            <div></div>
+            <div>Chưa thu</div>
+          </div>
+          <div class="tree-row alt">
+            <div class="chk-cell"><span class="dx-check checked"></span></div>
+            <div class="indent-1">3.1</div>
+            <div>TH001.245</div>
+            <div class="indent-1">Atorvastatin 20mg (viên)</div>
+            <div class="num">30</div>
+            <div class="num">3.500</div>
+            <div class="num">105.000</div>
+            <div class="num">84.000</div>
+            <div class="num">21.000</div>
+            <div class="num">0</div>
+            <div class="num neg">21.000</div>
+            <div>Nội TM</div>
+            <div>KTH.305</div>
+            <div>Đã cấp</div>
+          </div>
+          <div class="tree-row">
+            <div class="chk-cell"><span class="dx-check checked"></span></div>
+            <div class="indent-1">3.2</div>
+            <div>TH001.812</div>
+            <div class="indent-1">Aspirin 81mg (viên)</div>
+            <div class="num">30</div>
+            <div class="num">1.200</div>
+            <div class="num">36.000</div>
+            <div class="num">28.800</div>
+            <div class="num">7.200</div>
+            <div class="num">0</div>
+            <div class="num neg">7.200</div>
+            <div>Nội TM</div>
+            <div>KTH.305</div>
+            <div>Đã cấp</div>
+          </div>
+          <div class="tree-row alt">
+            <div class="chk-cell"><span class="dx-check checked"></span></div>
+            <div class="indent-1">3.3</div>
+            <div>VT.IV.045</div>
+            <div class="indent-1">Kim luồn tĩnh mạch 18G</div>
+            <div class="num">2</div>
+            <div class="num">18.500</div>
+            <div class="num">37.000</div>
+            <div class="num">29.600</div>
+            <div class="num">7.400</div>
+            <div class="num">0</div>
+            <div class="num neg">7.400</div>
+            <div>Nội TM</div>
+            <div>VTYT</div>
+            <div>Đã cấp</div>
+          </div>
+          <div class="tree-row">
+            <div class="chk-cell"><span class="dx-check checked"></span></div>
+            <div class="indent-1">3.4</div>
+            <div>VT.SR.198</div>
+            <div class="indent-1">Bơm tiêm 10ml</div>
+            <div class="num">10</div>
+            <div class="num">2.500</div>
+            <div class="num">25.000</div>
+            <div class="num">20.000</div>
+            <div class="num">5.000</div>
+            <div class="num">0</div>
+            <div class="num neg">5.000</div>
+            <div>Nội TM</div>
+            <div>VTYT</div>
+            <div>Đã cấp</div>
+          </div>
+
+          <div class="tree-row group alt">
+            <div class="chk-cell"><span class="triangle open"></span></div>
+            <div>4</div>
+            <div>NHOM_GIUONG</div>
+            <div><b>► Tiền giường</b></div>
+            <div class="num">5</div>
+            <div class="num">150.000</div>
+            <div class="num">750.000</div>
+            <div class="num">600.000</div>
+            <div class="num">150.000</div>
+            <div class="num">0</div>
+            <div class="num neg">150.000</div>
+            <div>Nội TM</div>
+            <div>P.305</div>
+            <div>Chưa thu</div>
+          </div>
+
+          <div class="tree-footer">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div style="font-weight: 700;">∑ Tổng cộng</div>
+            <div class="num"></div>
+            <div class="num"></div>
+            <div class="num">4.045.500</div>
+            <div class="num">3.236.400</div>
+            <div class="num">809.100</div>
+            <div class="num">0</div>
+            <div class="num neg">809.100</div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+
+        <!-- ====== Lower workspace ====== -->
+        <div class="workspace">
+
+          <!-- ===== Left column (payment details) ===== -->
+          <div class="col-left">
+            <div class="lci">
+              <span class="lci-label">Sổ thu chi:</span>
+              <span class="lci-input"><span class="dx-lookup"><input value="ST.001 - Sổ thu chính" readonly><span class="dx-edit-btn">▼</span></span></span>
+              <span class="lci-label" style="width: 90px;">Số chứng từ:</span>
+              <span class="lci-input" style="flex: 0 0 100px;"><span class="dx-spin"><input class="num-strong" value="00125" style="text-align:right"><span class="dx-edit-btn">▲</span></span></span>
+              <span class="lci-label" style="width: 100px;">Tg giao dịch:</span>
+              <span class="lci-input" style="flex: 0 0 140px;"><span class="dx-date"><input value="18/05/2026 10:23:45"><span class="dx-edit-btn">📅</span></span></span>
+            </div>
+
+            <div class="lci">
+              <span class="lci-label">Số tiền:</span>
+              <span class="lci-input"><input class="dx-edit amount" value="809.100" readonly></span>
+              <span class="lci-label" style="width: 90px;">Cần thu:</span>
+              <span class="lci-input" style="flex: 0 0 180px;"><input class="dx-edit amount" value="809.100" readonly></span>
+              <span class="lci-label" style="width: 90px;">Hiện dư:</span>
+              <span class="lci-input" style="flex: 0 0 140px;"><input class="dx-edit num-strong" value="500.000" readonly></span>
+            </div>
+
+            <div class="lci">
+              <span class="lci-label">Hình thức:</span>
+              <span class="lci-input"><span class="dx-lookup"><input value="Tiền mặt + Chuyển khoản"><span class="dx-edit-btn">▼</span></span></span>
+              <span class="lci-label" style="width: 90px;">Số tiền CK:</span>
+              <span class="lci-input" style="flex: 0 0 130px;"><span class="dx-spin"><input class="num-strong" value="300.000" style="text-align:right"><span class="dx-edit-btn">▲</span></span></span>
+              <span class="lci-label" style="width: 90px;">Số tiền QT:</span>
+              <span class="lci-input" style="flex: 0 0 130px;"><span class="dx-spin"><input class="num-strong" value="0" style="text-align:right"><span class="dx-edit-btn">▲</span></span></span>
+            </div>
+
+            <div class="lci">
+              <span class="lci-label">Ngân hàng:</span>
+              <span class="lci-input"><span class="dx-lookup"><input value="VCB - Vietcombank (CN Hà Nội)"><span class="dx-edit-btn">▼</span></span></span>
+              <span class="lci-label" style="width: 90px;">Chiết khấu (đ):</span>
+              <span class="lci-input" style="flex: 0 0 130px;"><span class="dx-spin"><input class="num-strong" value="0" style="text-align:right"><span class="dx-edit-btn">▲</span></span></span>
+              <span class="lci-label" style="width: 90px;">Chiết khấu (%):</span>
+              <span class="lci-input" style="flex: 0 0 130px;"><span class="dx-spin"><input class="num-strong" value="0" style="text-align:right"><span class="dx-edit-btn">▲</span></span></span>
+            </div>
+
+            <div class="lci">
+              <span class="lci-label">Ghi chú:</span>
+              <span class="lci-input"><input class="dx-edit" value="Thanh toán viện phí đợt điều trị ngày 18/05/2026"></span>
+            </div>
+
+            <div class="lci">
+              <span class="lci-label">TT thay thế:</span>
+              <span class="lci-input"><input class="dx-edit" value=""></span>
+              <span class="lci-label" style="width: 90px;">Lý do:</span>
+              <span class="lci-input"><input class="dx-edit" value=""></span>
+            </div>
+
+            <!-- Quick select group -->
+            <div class="lci">
+              <span class="lci-label">Chọn nhanh:</span>
+              <span class="lci-input" style="display:flex; gap:14px;">
+                <span class="dx-checkedit"><span class="dx-check checked"></span>Tất cả</span>
+                <span class="dx-checkedit"><span class="dx-check"></span>Phí khám</span>
+                <span class="dx-checkedit"><span class="dx-check"></span>Phí CLS + PT</span>
+                <span class="dx-checkedit"><span class="dx-check"></span>Phí thuốc</span>
+                <span class="dx-checkedit"><span class="dx-check"></span>Suất ăn</span>
+                <span class="dx-checkedit" style="margin-left:auto;"><span class="dx-check"></span>Không lấy thuốc/vật tư</span>
+              </span>
+            </div>
+
+            <!-- Bill fund grid -->
+            <div class="dx-grid" style="margin-top: 4px;">
+              <div class="grid-header" style="grid-template-columns: 40px 140px 1fr 120px 120px 60px;">
+                <div>STT</div>
+                <div>Mã quỹ thanh toán</div>
+                <div>Tên quỹ thanh toán</div>
+                <div style="justify-content: flex-end;">Số tiền</div>
+                <div style="justify-content: flex-end;">Hạn mức</div>
+                <div style="justify-content: center;">Xóa</div>
+              </div>
+              <div class="grid-row" style="grid-template-columns: 40px 140px 1fr 120px 120px 60px;">
+                <div>1</div>
+                <div>QHT.001</div>
+                <div>Quỹ hỗ trợ bệnh nhân nghèo</div>
+                <div style="text-align:right;">100.000</div>
+                <div style="text-align:right;">500.000</div>
+                <div style="text-align:center; color: var(--dx-danger); cursor:pointer;">❌</div>
+              </div>
+              <div class="grid-row alt" style="grid-template-columns: 40px 140px 1fr 120px 120px 60px;">
+                <div>2</div>
+                <div>QHT.014</div>
+                <div>Quỹ Vì Người Bệnh – Báo Nhân Dân</div>
+                <div style="text-align:right;">50.000</div>
+                <div style="text-align:right;">200.000</div>
+                <div style="text-align:center; color: var(--dx-danger); cursor:pointer;">❌</div>
+              </div>
+              <div class="grid-footer" style="grid-template-columns: 40px 140px 1fr 120px 120px 60px;">
+                <div></div><div></div>
+                <div style="justify-content: flex-start; padding-left: 6px;">∑ Tổng</div>
+                <div>150.000</div>
+                <div>700.000</div>
+                <div style="justify-content: center; color: var(--dx-success);">➕</div>
+              </div>
+            </div>
+
+            <!-- Sổ tạm ứng / Sổ hoàn ứng row -->
+            <div class="lci" style="margin-top: 6px;">
+              <span class="lci-label">Sổ tạm ứng:</span>
+              <span class="lci-input"><span class="dx-button-edit"><input value="STU.003 - Sổ tạm ứng nội trú" readonly><span class="dx-edit-btn">…</span><span class="dx-edit-btn">▼</span></span></span>
+              <span class="lci-label" style="width: 90px;">Số chứng từ:</span>
+              <span class="lci-input" style="flex: 0 0 130px;"><span class="dx-spin"><input class="num-strong" value="00208" style="text-align:right"><span class="dx-edit-btn">▲</span></span></span>
+            </div>
+            <div class="lci">
+              <span class="lci-label">Sổ hoàn ứng:</span>
+              <span class="lci-input"><span class="dx-lookup"><input value="SHU.001 - Sổ hoàn ứng" readonly><span class="dx-edit-btn">▼</span></span></span>
+              <span class="lci-label" style="width: 90px;">Số chứng từ:</span>
+              <span class="lci-input" style="flex: 0 0 130px;"><span class="dx-spin"><input class="num-strong" value="00045" style="text-align:right"><span class="dx-edit-btn">▲</span></span></span>
+              <span class="lci-input" style="flex: 0 0 150px;"><span class="dx-checkedit"><span class="dx-check checked"></span>Tự động hoàn ứng</span></span>
+            </div>
+
+            <!-- Bảo lãnh -->
+            <div class="lci">
+              <span class="lci-input" style="flex: 0 0 200px;"><span class="dx-checkedit"><span class="dx-check"></span>Bảo lãnh viện phí</span></span>
+              <span class="lci-label" style="width: 70px;">Bảo lãnh:</span>
+              <span class="lci-input"><input class="dx-edit" value="(không áp dụng)" readonly></span>
+              <span class="lci-label" style="width: 100px;">Số giao dịch:</span>
+              <span class="lci-input" style="flex: 0 0 180px;"><input class="dx-edit" value=""></span>
+            </div>
+          </div>
+
+          <!-- ===== Right column ===== -->
+          <div class="col-right">
+
+            <!-- GroupControl "Thông tin người mua" -->
+            <div class="dx-group">
+              <div class="caption">
+                Thông tin người mua
+                <span style="margin-left:14px; display:inline-flex; gap:14px; font-weight: normal;">
+                  <span class="dx-radio"><span class="dx-rd"></span>Cơ quan</span>
+                  <span class="dx-radio checked"><span class="dx-rd"></span>Thông tin cá nhân</span>
+                </span>
+                <span style="margin-left:auto; font-weight: normal;">
+                  <span class="dx-button-edit" style="width: 24px; height: 18px;"><span class="dx-edit-btn" style="border:none; width: 100%;">⚙</span></span>
+                </span>
+              </div>
+              <div class="body">
+                <div class="lci">
+                  <span class="lci-label w90">Họ tên:</span>
+                  <span class="lci-input"><input class="dx-edit" value="NGUYỄN VĂN AN"></span>
+                  <span class="lci-label w90">Đơn vị:</span>
+                  <span class="lci-input"><input class="dx-edit" value=""></span>
+                  <span class="lci-label w90">Mã số thuế:</span>
+                  <span class="lci-input"><input class="dx-edit" value=""></span>
+                </div>
+                <div class="lci">
+                  <span class="lci-label w90">Email:</span>
+                  <span class="lci-input"><input class="dx-edit" value="an.nv@example.com"></span>
+                  <span class="lci-label w90">SĐT:</span>
+                  <span class="lci-input"><input class="dx-edit" value="0912.345.678"></span>
+                  <span class="lci-label w90">Mã QH:</span>
+                  <span class="lci-input"><input class="dx-edit" value="01-04-018"></span>
+                </div>
+                <div class="lci">
+                  <span class="lci-label w90">Số tài khoản:</span>
+                  <span class="lci-input"><input class="dx-edit" value=""></span>
+                  <span class="lci-label w90">TT Định danh:</span>
+                  <span class="lci-input" style="display:flex; gap:4px;">
+                    <span class="dx-lookup" style="flex:0 0 130px;"><input value="CCCD" readonly><span class="dx-edit-btn">▼</span></span>
+                    <input class="dx-edit" value="036058001234">
+                  </span>
+                  <span class="lci-label w90">Địa chỉ:</span>
+                  <span class="lci-input" style="display:flex; gap:6px;">
+                    <input class="dx-edit" value="Số 12 Lý Thường Kiệt, Hoàn Kiếm, Hà Nội">
+                    <span class="dx-checkedit"><span class="dx-check checked"></span>ĐC BHYT</span>
+                    <span class="dx-checkedit"><span class="dx-check"></span>Khác</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- gridControlTransaction (saved transactions) -->
+            <div class="dx-grid">
+              <div class="grid-header" style="grid-template-columns: 80px 110px 100px 100px 110px 110px 60px 80px 130px 130px 110px 130px 110px;">
+                <div style="justify-content:center;">Khóa/Mở khóa</div>
+                <div>Mã giao dịch</div>
+                <div style="justify-content:flex-end;">Số tiền</div>
+                <div>Hình thức</div>
+                <div>Giao dịch viên</div>
+                <div>Phòng thu ngân</div>
+                <div style="justify-content:flex-end;">Số</div>
+                <div>Mã sổ</div>
+                <div>Tên sổ</div>
+                <div>Thời gian tạo</div>
+                <div>Người tạo</div>
+                <div>Thời gian sửa</div>
+                <div>Người sửa</div>
+              </div>
+              <div class="grid-row selected" style="grid-template-columns: 80px 110px 100px 100px 110px 110px 60px 80px 130px 130px 110px 130px 110px;">
+                <div style="justify-content:center; color: var(--dx-success); cursor:pointer;" class="chk-cell">🔓</div>
+                <div>TT2604.000087</div>
+                <div style="text-align:right; font-weight: 700;">500.000</div>
+                <div>Tiền mặt</div>
+                <div>Thu ngân 02</div>
+                <div>Q.TN-NỘI</div>
+                <div style="text-align:right;">00124</div>
+                <div>ST.001</div>
+                <div>Sổ thu chính</div>
+                <div>16/05/2026 09:15</div>
+                <div>nguyent</div>
+                <div></div>
+                <div></div>
+              </div>
+              <div class="grid-row alt" style="grid-template-columns: 80px 110px 100px 100px 110px 110px 60px 80px 130px 130px 110px 130px 110px;">
+                <div style="justify-content:center; color: var(--dx-text-muted);" class="chk-cell">🔒</div>
+                <div>TU2603.000044</div>
+                <div style="text-align:right; font-weight: 700;">1.000.000</div>
+                <div>Chuyển khoản</div>
+                <div>Thu ngân 02</div>
+                <div>Q.TN-NỘI</div>
+                <div style="text-align:right;">00207</div>
+                <div>STU.003</div>
+                <div>Sổ tạm ứng nội trú</div>
+                <div>14/05/2026 14:02</div>
+                <div>nguyent</div>
+                <div>15/05/2026 08:30</div>
+                <div>nguyent</div>
+              </div>
+            </div>
+
+            <!-- Số tiền BN đưa / Trả BN / Hoàn ứng + buttons -->
+            <div class="lci" style="margin-top: 8px;">
+              <span class="lci-label w130">Số tiền BN đưa:</span>
+              <span class="lci-input" style="flex: 0 0 180px;"><span class="dx-spin"><input class="num-strong" value="1.000.000" style="text-align:right; font-size: 13px; font-weight: 700;"><span class="dx-edit-btn">▲</span></span></span>
+              <span class="lci-label w130">Số tiền trả BN:</span>
+              <span class="lci-input" style="flex: 0 0 180px;"><input class="dx-edit num-strong" value="190.900" readonly></span>
+              <span class="lci-label w130">Số tiền hoàn ứng:</span>
+              <span class="lci-input" style="flex: 0 0 180px;"><input class="dx-edit num-strong" value="0" readonly></span>
+            </div>
+
+            <div class="lci">
+              <span class="lci-input" style="flex: 0 0 280px;"><input class="dx-edit" value="VCB - 0123456789 - NGUYEN VAN AN" readonly></span>
+              <button class="dx-btn compact" title="Chọn TK thụ hưởng" style="flex: 0 0 28px;">…</button>
+              <span style="flex: 1;"></span>
+              <button class="dx-btn compact"><span class="ico ico-qr"></span>QR</button>
+              <button class="dx-btn compact"><span class="ico ico-sign"></span>Lưu ký Emr</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ====== Bottom action bar ====== -->
+        <div class="bottom-bar">
+          <span class="dx-checkedit"><span class="dx-check"></span>Có kết chuyển</span>
+          <span class="dx-checkedit"><span class="dx-check checked"></span>In phiếu hoàn ứng</span>
+          <span class="dx-checkedit"><span class="dx-check"></span>Hoàn tiền ngân hàng</span>
+          <span class="dx-checkedit"><span class="dx-check"></span>Không hiển thị HĐĐT</span>
+          <span class="dx-checkedit"><span class="dx-check checked"></span>In HĐĐT</span>
+          <span class="dx-checkedit"><span class="dx-check"></span>In đơn PK</span>
+          <span class="dx-checkedit"><span class="dx-check"></span>In đơn THPK</span>
+          <span class="dx-checkedit"><span class="dx-check"></span>In bảng kê BH NT</span>
+          <span class="dx-checkedit"><span class="dx-check"></span>Kết nối POS</span>
+          <span class="dx-checkedit"><span class="dx-check checked"></span>Tự động đóng</span>
+
+          <span class="spacer"></span>
+
+          <button class="dx-btn"><span class="ico ico-pos"></span>POS Config</button>
+          <button class="dx-btn"><span class="ico ico-new"></span>Mới (Ctrl N)</button>
+          <span class="dx-dropdown-btn">
+            <button class="dx-btn main"><span class="ico ico-print"></span>In</button>
+            <button class="dx-btn arrow">▾</button>
+          </span>
+          <button class="dx-btn"><span class="ico ico-print"></span>Lưu in (Ctrl I)</button>
+          <button class="dx-btn"><span class="ico ico-sign"></span>Lưu ký (Ctrl A)</button>
+          <button class="dx-btn primary"><span class="ico ico-save"></span>Lưu (Ctrl S)</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="source-note">frmTransactionBill.Designer.cs — DevExpress Office 2019 Colorful skin mockup — 1841 × 938</div>
+</body>
+</html>

@@ -7,6 +7,7 @@
 
 - **Modules**
   - [MOS — Quản lý KCB & Viện phí](modules/MOS/)
+    - [frmTransactionBill — Thanh toán](modules/MOS/transaction-bill)
   - [EMR — Bệnh án điện tử](modules/EMR/)
   - [LIS — Xét nghiệm](modules/LIS/)
   - [ACS — Phân quyền](modules/ACS/)
