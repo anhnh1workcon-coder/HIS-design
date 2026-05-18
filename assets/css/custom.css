@@ -1,0 +1,231 @@
+/* HIS Design Portal — Custom Styles */
+
+/* ============================================================
+   CSS Variables — HIS Brand Colors
+   ============================================================ */
+:root {
+  --his-primary: #1a6fc4;
+  --his-primary-light: #e8f0fb;
+  --his-secondary: #2e7d32;
+  --his-accent: #0277bd;
+  --his-border: #dee2e6;
+  --his-text: #212529;
+  --his-text-muted: #6c757d;
+  --his-bg-code: #f8f9fa;
+
+  /* Module colors */
+  --color-mos: #1565c0;
+  --color-emr: #2e7d32;
+  --color-lis: #6a1b9a;
+  --color-acs: #e65100;
+  --color-fss: #37474f;
+}
+
+/* ============================================================
+   Typography
+   ============================================================ */
+body {
+  font-family: 'Segoe UI', 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--his-text);
+}
+
+.markdown-section h1:first-child {
+  border-bottom: 3px solid var(--his-primary);
+  padding-bottom: 0.4em;
+  margin-bottom: 1em;
+}
+
+.markdown-section h2 {
+  border-left: 4px solid var(--his-primary);
+  padding-left: 0.6em;
+  margin-top: 2em;
+}
+
+/* ============================================================
+   Navigation — Sidebar & Navbar
+   ============================================================ */
+.sidebar {
+  background: #fafbfc;
+  border-right: 1px solid var(--his-border);
+}
+
+.sidebar .sidebar-nav > ul > li > strong,
+.sidebar .sidebar-nav > ul > li > p > strong {
+  color: var(--his-primary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  display: block;
+  padding: 0.8em 0 0.3em 0;
+}
+
+.nav-logo {
+  font-weight: 700;
+  color: var(--his-primary);
+  font-size: 1.1em;
+}
+
+/* ============================================================
+   Subsystem Badges
+   ============================================================ */
+.subsystem-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  background: #e0e0e0;
+  color: #fff;
+}
+
+.badge-mos { background: var(--color-mos); }
+.badge-emr { background: var(--color-emr); }
+.badge-lis { background: var(--color-lis); }
+.badge-acs { background: var(--color-acs); }
+.badge-fss { background: var(--color-fss); }
+
+/* Module header badges (used in headings) */
+.module-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  vertical-align: middle;
+  margin-left: 8px;
+  color: #fff;
+}
+.module-badge.mos { background: var(--color-mos); }
+.module-badge.emr { background: var(--color-emr); }
+.module-badge.lis { background: var(--color-lis); }
+.module-badge.acs { background: var(--color-acs); }
+.module-badge.fss { background: var(--color-fss); }
+
+/* ============================================================
+   Tables
+   ============================================================ */
+.markdown-section table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.2em 0;
+  font-size: 0.92rem;
+}
+
+.markdown-section th {
+  background: var(--his-primary);
+  color: #fff;
+  font-weight: 600;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.markdown-section td {
+  padding: 7px 12px;
+  border-bottom: 1px solid var(--his-border);
+  vertical-align: top;
+}
+
+.markdown-section tr:nth-child(even) td {
+  background: var(--his-primary-light);
+}
+
+.markdown-section tr:hover td {
+  background: #e3f2fd;
+}
+
+/* ============================================================
+   Code Blocks
+   ============================================================ */
+.markdown-section pre {
+  background: #1e1e1e;
+  border-radius: 6px;
+  border: none;
+}
+
+.markdown-section code {
+  background: var(--his-bg-code);
+  border: 1px solid #e0e0e0;
+  border-radius: 3px;
+  padding: 2px 5px;
+  font-size: 0.88em;
+  color: #c7254e;
+}
+
+.markdown-section pre code {
+  background: transparent;
+  border: none;
+  color: inherit;
+  padding: 0;
+}
+
+/* ============================================================
+   Callout / Tip Boxes
+   ============================================================ */
+.tip,
+blockquote {
+  background: var(--his-primary-light);
+  border-left: 4px solid var(--his-primary);
+  border-radius: 0 4px 4px 0;
+  padding: 0.8em 1em;
+  margin: 1.2em 0;
+  color: var(--his-text);
+}
+
+blockquote p {
+  margin: 0;
+}
+
+/* Warning box */
+.warn,
+.markdown-section blockquote.warn {
+  background: #fff3e0;
+  border-left-color: #f57c00;
+}
+
+/* ============================================================
+   Info cards (module overview)
+   ============================================================ */
+.info-card {
+  border: 1px solid var(--his-border);
+  border-radius: 8px;
+  padding: 1em 1.2em;
+  margin: 0.8em 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+/* ============================================================
+   Search
+   ============================================================ */
+.search input {
+  border: 1px solid var(--his-border);
+  border-radius: 20px;
+  padding: 5px 14px;
+  font-size: 0.9rem;
+}
+
+.search input:focus {
+  border-color: var(--his-primary);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(26,111,196,0.15);
+}
+
+/* ============================================================
+   Print styles
+   ============================================================ */
+@media print {
+  .sidebar, .navbar, .search { display: none !important; }
+  .content { margin: 0 !important; padding: 1cm !important; }
+  .markdown-section h1, .markdown-section h2 { page-break-after: avoid; }
+  .markdown-section table { page-break-inside: avoid; }
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media screen and (max-width: 768px) {
+  .markdown-section table { font-size: 0.82rem; }
+  .markdown-section th, .markdown-section td { padding: 5px 8px; }
+}
