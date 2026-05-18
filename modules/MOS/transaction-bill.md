@@ -4,7 +4,7 @@
 **Loại màn hình**: Thanh toán viện phí (nội trú / ngoại trú)  
 **Kích thước**: 1841 × 938 px · DevExpress XtraForm / Office 2019 Colorful
 
-[Xem mockup toàn màn hình](../../mockups/frmTransactionBill_mockup.html ':ignore')
+[Xem mockup toàn màn hình](mockups/frmTransactionBill_mockup.html ':ignore')
 
 ---
 
@@ -16,7 +16,7 @@
   </div>
   <div style="overflow:auto; max-height:600px;">
     <iframe
-      src="../../mockups/frmTransactionBill_mockup.html"
+      src="mockups/frmTransactionBill_mockup.html"
       width="1900"
       height="980"
       style="border:none; display:block;"
